@@ -1,0 +1,4 @@
+---
+sensu_checks_install: []
+sensu_checks_uninstall: []
+sensu_checks_dir: "/etc/sensu/conf.d/checks/"

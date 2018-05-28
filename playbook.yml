@@ -1,0 +1,21 @@
+---
+- hosts: timesheets
+  remote_user: vagrant
+  sudo: True
+  gather_facts: True
+  roles:
+   - sensu-check-role
+
+- hosts: accounting
+  remote_user: vagrant
+  sudo: True
+  gather_facts: True
+  roles:
+   - sensu-check-role
+
+- hosts: payroll
+  remote_user: vagrant
+  sudo: True
+  gather_facts: True
+  roles:
+   - sensu-check-role

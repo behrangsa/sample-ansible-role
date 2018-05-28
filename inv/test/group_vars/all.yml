@@ -1,0 +1,3 @@
+---
+sensu_checks_uninstall:
+  - basename: check-legacy-process

@@ -1,0 +1,25 @@
+---
+- name: Create checks directory
+  file:
+    path: "{{ sensu_checks_dir }}"
+    state: directory
+
+- name: Uninstall redundant checks
+  file:
+    path: "{{ item.check_dir | default(sensu_checks_dir) }}/{{ item.basename }}.json"
+    state: absent
+  with_items: "{{ sensu_checks_uninstall }}"
+  notify: Restart sensu client
+
+- name: Compile checks
+  set_fact:
+    check_def: "{{ lookup('template', 'sensu_check.json.j2') }}"
+  with_items: "{{ sensu_checks_install }}"
+  register: check_defs
+  notify: Restart sensu client
+
+- name: Copy checks
+  copy:
+    content: "{{ item.ansible_facts.check_def }}"
+    dest: "{{ item.item.check_dir | default(sensu_checks_dir) }}/{{ item.item.basename | default(item.item.name) }}.json"
+  with_items: "{{ check_defs.results }}"

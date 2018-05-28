@@ -1,0 +1,4 @@
+---
+sensu_checks_install:
+  - name: check-payroll-process
+    command: "/etc/sensu/plugins/community/check-procs.rb -c 1 -p java.*payroll"

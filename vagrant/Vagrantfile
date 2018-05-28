@@ -1,0 +1,16 @@
+Vagrant.configure("2") do |config|
+  config.vm.box = "centos/6"
+
+  config.vm.network "private_network", ip: "192.168.33.20"
+  config.vm.hostname = "test.vagrant.local"
+
+  config.vm.provider "virtualbox" do |vb|
+    vb.memory = "512"
+  end
+
+  config.vm.provision "shell", inline: <<-SHELL
+    printf '[sensu]\nname=sensu\nbaseurl=https://sensu.global.ssl.fastly.net/yum/$releasever/$basearch/\ngpgcheck=0\nenabled=1' > /etc/yum.repos.d/sensu.repo
+    yum update -y
+    yum install libselinux-python sensu -y
+  SHELL
+end
